@@ -1,0 +1,11 @@
+{% if events %}
+{% for event in events %}
+<div class="event">
+  <h2>{{ event.event_name }}</h2>
+  <p>{{ event.examination }}</p>
+  <p>{{ event.detection_date }}</p>
+</div>
+{% endfor %}
+{% else %}
+<p>No events found</p>
+{% endif %}
