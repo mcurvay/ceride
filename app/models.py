@@ -1,5 +1,11 @@
 from django.db import models
 
+# TODO: Model genişletilecek.
+# TODO: Model içerisindeki gerekli alanlar için default değerler ve help_text değerleri verilecek.
+# TODO: Model isilendirmeleri için daha anlamlı isimler verilecek.
+# TODO: Sınıflar için docstringler eklenecek.
+# TODO: TextField veri girişlerinde markdown desteği eklenecek.
+
 class Event(models.Model):
   LEVEL = [
       (3, 'Seviye 3'),

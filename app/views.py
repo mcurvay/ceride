@@ -2,6 +2,12 @@ from django.shortcuts import render
 
 from .models import Event, EventStep
 
+# TODO: FBV (fonction based view) yerine CBV (class based view) kullanılacak.
+# TODO: index sayfası için arama formu eklenecek.
+# TODO: index sayfası için filtreleme formu eklenecek.
+# TODO: detail sayfası için PDF çıktı düğmesi eklenecek.
+# TODO: 404 sayfası eklenecek.
+
 def index(request):
     events = Event.objects.all()
     context = {
