@@ -1,25 +1,37 @@
-from django.shortcuts import render
+from django.http import Http404
+from django.views.generic import ListView, DetailView
 
-from .models import Event, EventStep
+from .models import Event, Step
 
-# TODO: FBV (fonction based view) yerine CBV (class based view) kullanılacak.
 # TODO: index sayfası için arama formu eklenecek.
 # TODO: index sayfası için filtreleme formu eklenecek.
 # TODO: detail sayfası için PDF çıktı düğmesi eklenecek.
 # TODO: 404 sayfası eklenecek.
 
-def index(request):
-    events = Event.objects.all()
-    context = {
-        'events': events,
-    }
-    return render(request, 'app/index.html', context)
+class EventListView(ListView):    
+    model = Event
+    template_name = 'app/index.html'
+    context_object_name = 'events'
+    ordering = ['-dateTime']
 
-def detail(request, event_id):
-    event = Event.objects.get(id=event_id)
-    steps = EventStep.objects.filter(event=event)
-    context = {
-        'event': event,
-        'steps': steps,
-    }
-    return render(request, 'app/detail.html', context)
+    def get_object(self, queryset=None):        
+        obj = super().get_object(queryset)
+        if obj is None:
+            raise Http404("Event does not exist")
+        return obj
+
+class EventDetailView(DetailView):
+    model = Event
+    template_name = 'app/detail.html'
+    context_object_name = 'event'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj is None:
+            raise Http404("Event does not exist")
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['steps'] = Step.objects.filter(event=self.object)
+        return context
