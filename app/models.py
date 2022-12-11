@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # TODO: Model genişletilecek.
-# TODO: Viriyi kimin girdiği ve düzelttiği zaman bilgisi ile birlikte kaydedilecek.
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
 
 class Event(models.Model):
