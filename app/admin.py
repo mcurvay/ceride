@@ -2,45 +2,34 @@ from django.contrib import admin
 
 from .models import Event, Step
 
+# TODO: Admin panelin tema, dil, yerleşim ayarları yapılacak. Model netleştikten sonra.
+
+class StepInline(admin.TabularInline):
+  model = Step
+  extra = 1
+  readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
+
+  # TODO: Bu fonksiyon çalışmıyor. Override mı etmiyor. İncele.
+  def save_model(self, request, obj, form, change):
+    if obj.pk is None:
+      obj.created_by = request.user
+    else:
+      obj.updated_by = request.user
+
+    super().save_model(request, obj, form, change)
+
 
 class EventAdmin(admin.ModelAdmin):
-    # readonly_fields alanları sadece okunabilir olacak, değiştirilemeyecek
-    readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
+  inlines = [StepInline]
+  readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
 
-    # Kaydetme işleminden önce bu fonksiyon çalışacak
-    def save_model(self, request, obj, form, change):
-        # obj.pk değeri None ise yeni bir kayıt oluşturuluyor
-        if obj.pk is None:
-            # created_by alanına veri giren kullanıcı atanıyor
-            obj.created_by = request.user
-        # obj.pk değeri None değilse var olan bir kaydın güncelleniyor
-        else:
-            # updated_by alanına veriyi güncelleyen kullanıcı atanıyor
-            obj.updated_by = request.user
+  def save_model(self, request, obj, form, change):
+    if obj.pk is None:
+      obj.created_by = request.user
+    else:
+      obj.updated_by = request.user
 
-        # Kaydetme işlemini yap
-        super().save_model(request, obj, form, change)
+    super().save_model(request, obj, form, change)
 
-
-class StepAdmin(admin.ModelAdmin):
-    # readonly_fields alanları sadece okunabilir olacak, değiştirilemeyecek
-    readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
-
-    # Kaydetme işleminden önce bu fonksiyon çalışacak
-    def save_model(self, request, obj, form, change):
-        # obj.pk değeri None ise yeni bir kayıt oluşturuluyor
-        if obj.pk is None:
-            # created_by alanına veri giren kullanıcı atanıyor
-            obj.created_by = request.user
-        # obj.pk değeri None değilse var olan bir kaydın güncelleniyor
-        else:
-            # updated_by alanına veriyi güncelleyen kullanıcı atanıyor
-            obj.updated_by = request.user
-
-        # Kaydetme işlemini yap
-        super().save_model(request, obj, form, change)
 
 admin.site.register(Event, EventAdmin)
-admin.site.register(Step, StepAdmin)
-
-# TODO: Daha sonra bu dosyayı kullanarak admin panelindeki görünümü değiştireceğiz.
