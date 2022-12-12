@@ -55,6 +55,11 @@ class Event(models.Model):
   def __str__(self):
     return self.title
 
+  class Meta:
+    verbose_name = 'Olay'
+    verbose_name_plural = 'Olaylar'
+    ordering = ['-dateTime']
+
 
 class Step(models.Model):
   event = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -62,4 +67,9 @@ class Step(models.Model):
   dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
   def __str__(self):
-    return self.dateTime.__str__()
+    return self.dateTime.strftime("%H:%M - %d.%m.%y")
+
+  class Meta:
+    verbose_name = 'Adım'
+    verbose_name_plural = 'Adımlar'
+    ordering = ['dateTime']
