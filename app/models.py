@@ -2,40 +2,36 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
-# TODO: Model genişletilecek.
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
 
 LEVEL = [
-  (1, "1"),
-  (2, "2"),
-  (3, 'Nöbetçi heyeti tarafından çözülemeyen ve geneli etkileyen, etkisi yüksek arıza')
+  (1, '1: Lorem ipsum'),
+  (2, '2: Dolor sit amet'),
+  (3, '3: Nöbetçi heyeti tarafından çözülemeyen ve geneli etkileyen, etkisi yüksek arıza')
   ]
 
 TYPE = [
-  (1, 'Tür 1 Acilen müdahale edilmemesi durumunda donanımın kalıcı hasara uğraması'),
-  (2, 'Tür 2 Kurumsal verinin kaybedilme ihtimali'),
-  (3, 'Tür 3 Görevin yapılmasına, hizmetin vatandaşa sunulmasına mani bir durum oluşması'),
-  (4, 'Tür 4 Kritik uygulamalrın tamamen devredışı kalması'),
-  (5, 'Tür 5 Kurumun imajını olumsuz etkileyecek hususlar'),
-  (6, 'Tür 6 Diğer'),
+  (1, '1: Acilen müdahale edilmemesi durumunda donanımın kalıcı hasara uğraması'),
+  (2, '2: Kurumsal verinin kaybedilme ihtimali'),
+  (3, '3: Görevin yapılmasına, hizmetin vatandaşa sunulmasına mani bir durum oluşması'),
+  (4, '4: Kritik uygulamaların tamamen devredışı kalması'),
+  (5, '5: Kurumun imajını olumsuz etkileyecek hususlar'),
+  (6, '6: Diğer'),
   ]
 
 SOURCE = [
   (1, 'Yazılım'),
   (2, 'Donanım'),
-  (3, "Altyapı")
-]
+  (3, 'Altyapı'),
+  ]
 
 SOLUTION = [
   (1, 'Nöbetçi heyeti'),
-  (2, "İlgili personel"),
-  (3,"Firma Personeli")
-]
+  (2, 'İlgili personel'),
+  (3, 'Firma Personeli')
+  ]
 
-class Event(models.Model):
-  """
-  Olaylar için model. title, description, dateTime, solved_at, detection_method, detection_by, level, type, created_by, created_at, updated_by, updated_at.
-  """  
+class Event(models.Model): 
   title = models.CharField('Olay', max_length=200)
   description = models.TextField('Ön İnceleme')
   dateTime = models.DateTimeField('Tespit Tarihi ve Saati', default=datetime.now)
@@ -61,9 +57,6 @@ class Event(models.Model):
 
 
 class Step(models.Model):
-  """
-  Olaylara ait adımlar için model. event, description, dateTime, created_by, created_at, updated_by, updated_at.
-  """
   event = models.ForeignKey(Event, on_delete=models.CASCADE)
   description = models.TextField('Yapılan İşlemler')
   dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
