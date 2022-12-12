@@ -52,11 +52,5 @@ class Step(models.Model):
   description = models.TextField('Yapılan İşlemler')
   dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
-  # TODO: admin.py'de save_model fonksiyonu düzgün çalışırsa created_by null blank silinecek.
-  created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_created_by', null=True, blank=True)
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_updated_by', null=True, blank=True)
-  updated_at = models.DateTimeField(auto_now=True)
-
   def __str__(self):
     return self.dateTime.__str__()
