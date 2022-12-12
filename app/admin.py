@@ -12,6 +12,15 @@ class StepInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
   inlines = [StepInline]
   readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
+  fieldsets = [
+    ('İlk Tespit', {'fields': ['title', 'description', 'dateTime', 'detection_method', 'detection_by', 'level', 'type']}),
+    ('Çözüm', {'fields': ['solved_at', 'source', 'solution_method']}),
+    ('Kayıt Bilgileri', {'fields': ['created_by', 'created_at', 'updated_by', 'updated_at']})
+    ]
+  list_display = ('title', 'dateTime', 'solved_at')
+  list_filter = ['dateTime', 'solved_at']
+  search_fields = ['title', 'description']
+
 
   def save_model(self, request, obj, form, change):
     if obj.pk is None:
