@@ -10,7 +10,7 @@ from .models import Event, Step
 
 class EventListView(ListView):    
     model = Event
-    template_name = 'app/index.html'
+    template_name = 'index.html'
     context_object_name = 'events'
     ordering = ['-dateTime']
 
@@ -22,7 +22,7 @@ class EventListView(ListView):
 
 class EventDetailView(DetailView):
     model = Event
-    template_name = 'app/detail.html'
+    template_name = 'detail.html'
     context_object_name = 'event'
 
     def get_object(self, queryset=None):

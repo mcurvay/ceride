@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Ana Sayfa{% endblock title%}
+
+
+
+{% block content %}
+
+  {% if events %}
+    <div class="row row-cols-1 row-cols-md-3 g-3 py-3">
+      {% for event in events %}
+        {% include 'partials/_event_card.html' %}
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <div class="row py-3">
+      <div class="col">
+        <p class="display-1 text-center">Hiç etkinlik yok.</p>
+      </div>
+    </div>
+  {% endif %}
+
+{% endblock content %}
