@@ -1,8 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import locale
 from django.db import models
 from django.contrib.auth.models import User
 
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
+
+locale.setlocale(locale.LC_TIME, "tr_TR")
 
 LEVEL = [
     (1, '1: Lorem ipsum'),
@@ -55,6 +58,23 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    def formatted_date(self):
+        # eğer bugün ise bugün yazdır
+        if self.dateTime.date() == datetime.now().date():
+            return 'Bugün'
+        # eğer dün ise dün yazdır
+        elif self.dateTime.date() == datetime.now().date() - timedelta(days=1):
+            return 'Dün'
+        # eğer bu hafta ise günü yazdır
+        elif self.dateTime.date() >= datetime.now().date() - timedelta(days=7):
+            return self.dateTime.strftime("%A")
+        # eğer bu yıl aynı ise yıl hariç yazdır
+        elif self.dateTime.year == datetime.now().year:
+            return self.dateTime.strftime("%d %B")
+        # eğer önceki yıllarda ise tarihi yazdır
+        else:
+            return self.dateTime.strftime("%d %B %Y")
+
     class Meta:
         verbose_name = 'Olay'
         verbose_name_plural = 'Olaylar'
@@ -67,7 +87,7 @@ class Step(models.Model):
     dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
     def __str__(self):
-        return self.dateTime.strftime("%H:%M - %d.%m.%y")
+        return self.dateTime.strftime("%H:%M - %d %B %y %A")
 
     class Meta:
         verbose_name = 'Adım'
