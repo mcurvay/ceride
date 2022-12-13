@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
+# FIXME: Timezone ayarları düzeltilecek. 3 saat eklemek geçici çözüm.
 
 locale.setlocale(locale.LC_TIME, "tr_TR")
 
@@ -23,15 +24,15 @@ TYPE = [
     ]
 
 SOURCE = [
-    (1, 'Yazılım'),
-    (2, 'Donanım'),
-    (3, 'Altyapı'),
+    ('Yazılım', 'Yazılım'),
+    ('Donanım', 'Donanım'),
+    ('Konfigürasyon', 'Konfigürasyon'),
     ]
 
-SOLUTION = [
-    (1, 'Nöbetçi heyeti'),
-    (2, 'İlgili personel'),
-    (3, 'Firma Personeli')
+SOLUTIONBY = [
+    ('Nöbetçi heyeti', 'Nöbetçi heyeti'),
+    ('İlgili personel', 'İlgili personel'),
+    ('Firma Personeli', 'Firma Personeli')
     ]
 
 class Event(models.Model): 
@@ -42,8 +43,8 @@ class Event(models.Model):
     detection_by = models.CharField('Tespit Eden', max_length=200, help_text='SOME Nöbetçi Heyeti')
     level = models.IntegerField("Seviye", choices=LEVEL, default=3)
     type = models.IntegerField("Tip", choices=TYPE, default=4)
-    source = models.IntegerField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True)
-    solution_method = models.IntegerField("Çözüm Yöntemi", choices=SOLUTION, null=True, blank=True )
+    source = models.CharField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True, max_length=15)
+    solution_by = models.CharField("Çözüm Geliştiren", choices=SOLUTIONBY, null=True, blank=True, max_length=20)
 
     solved_at = models.DateTimeField(
         'Çözüm Tarihi ve Saati', blank=True, null=True, default=None,
@@ -59,21 +60,21 @@ class Event(models.Model):
         return self.title
 
     def formatted_date(self):
-        # eğer bugün ise bugün yazdır
-        if self.dateTime.date() == datetime.now().date():
-            return 'Bugün'
-        # eğer dün ise dün yazdır
-        elif self.dateTime.date() == datetime.now().date() - timedelta(days=1):
-            return 'Dün'
-        # eğer bu hafta ise günü yazdır
-        elif self.dateTime.date() >= datetime.now().date() - timedelta(days=7):
-            return self.dateTime.strftime("%A")
-        # eğer bu yıl aynı ise yıl hariç yazdır
-        elif self.dateTime.year == datetime.now().year:
-            return self.dateTime.strftime("%d %B")
-        # eğer önceki yıllarda ise tarihi yazdır
+        dateTime = self.dateTime + timedelta(hours=3)
+        if dateTime.date() == datetime.now().date():
+            return 'Bugün ' + dateTime.strftime("%H:%M")
+        elif dateTime.date() == datetime.now().date() - timedelta(days=1):
+            return 'Dün ' + dateTime.strftime("%H:%M")
+        elif dateTime.date() >= datetime.now().date() - timedelta(days=7):
+            return dateTime.strftime("%A")
+        elif dateTime.year == datetime.now().year:
+            return dateTime.strftime("%d %B")
         else:
-            return self.dateTime.strftime("%d %B %Y")
+            return dateTime.strftime("%d %B %Y")
+
+    def is_today(self):
+        dateTime = self.dateTime + timedelta(hours=3)
+        return dateTime.date() == datetime.now().date()
 
     class Meta:
         verbose_name = 'Olay'
@@ -87,7 +88,15 @@ class Step(models.Model):
     dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
     def __str__(self):
-        return self.dateTime.strftime("%H:%M - %d %B %y %A")
+        dateTime = self.dateTime + timedelta(hours=3)
+        return dateTime.strftime("%H:%M - %d %B %y %A")
+
+    def formatted_date(self):
+        dateTime = self.dateTime + timedelta(hours=3)
+        if self.dateTime.date() == self.event.dateTime.date():
+            return dateTime.strftime("%H:%M")
+        else:
+            return dateTime.strftime("%d %B %y - %H:%M")
 
     class Meta:
         verbose_name = 'Adım'

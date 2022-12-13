@@ -1,5 +1,5 @@
 <div class="col">
-  <div class="card {% if event.formatted_date == 'Bugün' %} border-primary {% else %} border-0 {% endif %} ">
+  <div class="card {% if event.is_today %}border-primary{% elif event.solved_at %}border-0{% else %}border-danger{% endif %} ">
     <div class="card-body">
       <p class="card-subtitle small text-muted">{{ event.formatted_date }}</p>
       <h5 class="card-title">{{ event.title | truncatechars:80 }}</h5>
