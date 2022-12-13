@@ -2,33 +2,21 @@
 
 Rapor tutmak için tasarlandı, Django ile geliştirildi.
 
-## Başlarken
+## Kurulum
 
-### Temel Gereksinimler
+1. Ceride uygulamasının çalışabilmesi için [Node.js](https://nodejs.org/en/download/) ve [Python](https://www.python.org/downloads/) kurulu olmalıdır.
 
-1. [Python](https://www.python.org/downloads/)
-
-1. Django
+1. Ardından aşağıdaki komutlar çalıştırılarak gerekli paketler kurulmalıdır.
 
    ```bash
-   py -m pip install Django #windows
-   python -m pip install Django #linux/macOS
+   npm i
+   npm run pip
    ```
 
-### Proje Gereksinimleri
-
-1. Windows
+1. Diğer kurulumlar tamamlandıktan sonra aşağıdaki komutlar çalıştırılarak uygulama çalıştırılabilir hale gelir.
 
    ```bash
-   py manage.py makemigrations
-   py manage.py migrate
-   py manage.py runserver
-   ```
-
-1. Linux/macOS
-
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   python manage.py runserver
+   npm run migrate
+   npm run sass
+   npm run serve
    ```

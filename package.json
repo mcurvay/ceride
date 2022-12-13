@@ -1,0 +1,35 @@
+{
+  "name": "ceride",
+  "version": "0.1.0",
+  "description": "Rapor tutmak için tasarlandı, Django ile geliştirildi.",
+  "main": "none",
+  "scripts": {
+    "test": "python manage.py test",
+    "freeze": "pip freeze > requirements.txt",
+    "pip": "pip install -r requirements.txt",
+    "csu": "python manage.py createsuperuser",
+    "migrate": "python manage.py makemigrations && python manage.py migrate",
+    "sass": "sass scss:static/css",
+    "serve": "python manage.py runserver"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mokoco/ceride.git"
+  },
+  "keywords": [
+    "Django"
+  ],
+  "authors": [
+    "Abuzer Emre Osmanoğlu",
+    "Mehmet Çağatay Urvaylıoğlu"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mokoco/ceride/issues"
+  },
+  "homepage": "https://github.com/mokoco/ceride#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "sass": "^1.56.2"
+  }
+}

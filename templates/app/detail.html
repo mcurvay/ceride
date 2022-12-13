@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+
+{% block title %}{{ event.title }}{% endblock title%}
+
+{% block content %}
+  {% if steps %}
+    <div class="steps">
+      <h3>Steps</h3>
+      <ul>
+        {% for step in steps %}
+        <li>
+          {{ step.description }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p>No steps found</p>
+  {% endif %}
+{% endblock content %}
