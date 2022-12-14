@@ -17,7 +17,7 @@
       <dd class="col-sm-9">{{ event.detection_method }}</dd>
       <dt class="col-sm-3">Tespit Eden</dt>
       <dd class="col-sm-9">{{ event.detection_by }}</dd>
-      <dt class="col-sm-3">Seviye</dt>
+      <dt class="col-sm-3">Etkisi</dt>
       <dd class="col-sm-9">Seviye {{ event.level }} - Tip {{ event.type }}</dd>
     </dl>
     <hr>
@@ -48,20 +48,4 @@
     <a href="#" class="btn btn-sm btn-outline-primary mt-5">Raporu indir</a>
   </article>
 </section>
-
-
-  {% comment %} {% if steps %}
-    <div class="steps">
-      <h3>Steps</h3>
-      <ul>
-        {% for step in steps %}
-        <li>
-          {{ step.description }}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% else %}
-    <p>No steps found</p>
-  {% endif %} {% endcomment %}
 {% endblock content %}
