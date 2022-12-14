@@ -12,7 +12,7 @@ class EventAdmin(admin.ModelAdmin):
     readonly_fields = ('created_by', 'created_at', 'updated_by', 'updated_at')
     fieldsets = [
         ('İlk Tespit', {'fields': ['title', 'description', 'dateTime', 'detection_method', 'detection_by', 'level', 'type']}),
-        ('Çözüm', {'fields': ['solved_at', 'source', 'solution_method','suggestions']}),
+        ('Çözüm', {'fields': ['solved_at', 'source', 'solution_by','suggestions']}),
         ('Kayıt Bilgileri', {'fields': ['created_by', 'created_at', 'updated_by', 'updated_at']})
         ]
     list_display = ('title', 'dateTime', 'solved_at')

@@ -1,8 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import locale, pytz
 from django.db import models
 from django.contrib.auth.models import User
 
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
+
+locale.setlocale(locale.LC_ALL, "tr_TR")
 
 LEVEL = [
     (1, '1: Lorem ipsum'),
@@ -20,15 +23,15 @@ TYPE = [
     ]
 
 SOURCE = [
-    (1, 'Yazılım'),
-    (2, 'Donanım'),
-    (3, 'Altyapı'),
+    ('Yazılım', 'Yazılım'),
+    ('Donanım', 'Donanım'),
+    ('Konfigürasyon', 'Konfigürasyon'),
     ]
 
-SOLUTION = [
-    (1, 'Nöbetçi heyeti'),
-    (2, 'İlgili personel'),
-    (3, 'Firma Personeli')
+SOLUTIONBY = [
+    ('Nöbetçi heyeti', 'Nöbetçi heyeti'),
+    ('İlgili personel', 'İlgili personel'),
+    ('Firma Personeli', 'Firma Personeli')
     ]
 
 class Event(models.Model): 
@@ -39,9 +42,9 @@ class Event(models.Model):
     detection_by = models.CharField('Tespit Eden', max_length=200, help_text='SOME Nöbetçi Heyeti')
     level = models.IntegerField("Seviye", choices=LEVEL, default=3)
     type = models.IntegerField("Tip", choices=TYPE, default=4)
-    source = models.IntegerField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True)
-    solution_method = models.IntegerField("Çözüm Yöntemi", choices=SOLUTION, null=True, blank=True )
-    suggestions = models.TextField('Öneriler', help_text='Problemin yeniden gerçekleşmemesi için alınabilecek tedbirler.', null=False, blank=True)
+    suggestions = models.TextField('Öneriler', help_text='Problemin yeniden gerçekleşmemesi için alınabilecek tedbirler.', null=True, blank=True)
+    source = models.CharField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True, max_length=15)
+    solution_by = models.CharField("Çözüm Geliştiren", choices=SOLUTIONBY, null=True, blank=True, max_length=20)
 
     solved_at = models.DateTimeField(
         'Çözüm Tarihi ve Saati', blank=True, null=True, default=None,
@@ -56,6 +59,23 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    def formatted_date(self):
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
+        if dateTime.date() == datetime.now().date():
+            return 'Bugün ' + dateTime.strftime("%H:%M")
+        elif dateTime.date() == datetime.now().date() - timedelta(days=1):
+            return 'Dün ' + dateTime.strftime("%H:%M")
+        elif dateTime.date() >= datetime.now().date() - timedelta(days=7):
+            return dateTime.strftime("%A")
+        elif dateTime.year == datetime.now().year:
+            return dateTime.strftime("%d %B")
+        else:
+            return dateTime.strftime("%d %B %Y")
+
+    def is_today(self):
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
+        return dateTime.date() == datetime.now().date()
+
     class Meta:
         verbose_name = 'Olay'
         verbose_name_plural = 'Olaylar'
@@ -68,7 +88,15 @@ class Step(models.Model):
     dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
     def __str__(self):
-        return self.dateTime.strftime("%H:%M - %d.%m.%y")
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
+        return dateTime.strftime("%H:%M - %d %B %y %A")
+
+    def formatted_date(self):
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
+        if self.dateTime.date() == self.event.dateTime.date():
+            return dateTime.strftime("%H:%M")
+        else:
+            return dateTime.strftime("%d %B %y - %H:%M")
 
     class Meta:
         verbose_name = 'Adım'

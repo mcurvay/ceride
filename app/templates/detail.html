@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }}{% endblock title%}
+
+{% block content %}
+<section class="container-fluid py-5">
+  <article class="container">
+    <h1 class="display-6 mb-5">{{ event.title }}</h1>
+    <dl class="row">
+      <dt class="col-sm-3">Durum</dt>
+        {% if event.solved_at %}
+        <dd class="col-sm-9 text-success">Çözüldü</dd>
+        {% else %}
+        <dd class="col-sm-9 text-danger">Çözülmedi</dd>
+        {% endif %}
+      <dt class="col-sm-3">Tespit Yöntemi</dt>
+      <dd class="col-sm-9">{{ event.detection_method }}</dd>
+      <dt class="col-sm-3">Tespit Eden</dt>
+      <dd class="col-sm-9">{{ event.detection_by }}</dd>
+      <dt class="col-sm-3">Etkisi</dt>
+      <dd class="col-sm-9">Seviye {{ event.level }} - Tip {{ event.type }}</dd>
+    </dl>
+    <hr>
+    <dl class="row">
+      <dt class="col-sm-3">{{ event.dateTime }}</dt>
+      <dd class="col-sm-9 mb-4">{{ event.description }}</dd>
+      {% for step in steps %}
+      <dt class="col-sm-3">{{ step.formatted_date }}</dt>
+      <dd class="col-sm-9 mb-4">{{ step.description }}</dd>
+      {% endfor %}
+    </dl>
+    <hr>
+    <dl class="row">
+      <dt class="col-sm-3">Çözüm Zamanı</dt>
+      <dd class="col-sm-9">{% if event.solved_at %}{{ event.solved_at }}{% else %}Çözülmedi{% endif %}</dd>
+      <dt class="col-sm-3">Arıza Kaynağı</dt>
+      <dd class="col-sm-9">{% if event.source %}{{ event.source }}{% else %}Tespit edilemedi{% endif %}</dd>
+      <dt class="col-sm-3">Çözüm Geliştiren</dt>
+      <dd class="col-sm-9">{% if event.solution_by %}{{ event.solution_by }}{% else %}Yok{% endif %}</dd>
+    </dl>
+    <hr>
+    <dl class="row">
+      <dt class="col-sm-3">Oluşturan</dt>
+      <dd class="col-sm-9">{{ event.created_by }}</dd>
+      <dt class="col-sm-3">Son Düzenleyen</dt>
+      <dd class="col-sm-9">{{ event.updated_by }}</dd>
+    </dl>
+    <a href="{% url 'app:pdf' event.id %}" class="btn btn-sm btn-outline-primary mt-5">Raporu indir</a>
+  </article>
+</section>
+{% endblock content %}
