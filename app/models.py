@@ -42,6 +42,7 @@ class Event(models.Model):
     detection_by = models.CharField('Tespit Eden', max_length=200, help_text='SOME Nöbetçi Heyeti')
     level = models.IntegerField("Seviye", choices=LEVEL, default=3)
     type = models.IntegerField("Tip", choices=TYPE, default=4)
+    suggestions = models.TextField('Öneriler', help_text='Problemin yeniden gerçekleşmemesi için alınabilecek tedbirler.', null=True, blank=True)
     source = models.CharField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True, max_length=15)
     solution_by = models.CharField("Çözüm Geliştiren", choices=SOLUTIONBY, null=True, blank=True, max_length=20)
 
