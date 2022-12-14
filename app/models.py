@@ -1,10 +1,9 @@
 from datetime import datetime, timedelta
-import locale
+import locale, pytz
 from django.db import models
 from django.contrib.auth.models import User
 
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
-# FIXME: Timezone ayarları düzeltilecek. 3 saat eklemek geçici çözüm.
 
 locale.setlocale(locale.LC_ALL, "tr_TR")
 
@@ -60,7 +59,7 @@ class Event(models.Model):
         return self.title
 
     def formatted_date(self):
-        dateTime = self.dateTime + timedelta(hours=3)
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
         if dateTime.date() == datetime.now().date():
             return 'Bugün ' + dateTime.strftime("%H:%M")
         elif dateTime.date() == datetime.now().date() - timedelta(days=1):
@@ -73,7 +72,7 @@ class Event(models.Model):
             return dateTime.strftime("%d %B %Y")
 
     def is_today(self):
-        dateTime = self.dateTime + timedelta(hours=3)
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
         return dateTime.date() == datetime.now().date()
 
     class Meta:
@@ -88,11 +87,11 @@ class Step(models.Model):
     dateTime = models.DateTimeField('İşlem Tarihi ve Saati', default=datetime.now)
 
     def __str__(self):
-        dateTime = self.dateTime + timedelta(hours=3)
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
         return dateTime.strftime("%H:%M - %d %B %y %A")
 
     def formatted_date(self):
-        dateTime = self.dateTime + timedelta(hours=3)
+        dateTime = self.dateTime.astimezone(pytz.timezone('Europe/Istanbul'))
         if self.dateTime.date() == self.event.dateTime.date():
             return dateTime.strftime("%H:%M")
         else:
