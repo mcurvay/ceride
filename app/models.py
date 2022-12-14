@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # TODO: TextField veri girişlerinde markdown desteği eklenecek.
 # FIXME: Timezone ayarları düzeltilecek. 3 saat eklemek geçici çözüm.
 
-locale.setlocale(locale.LC_TIME, "tr_TR")
+locale.setlocale(locale.LC_ALL, "tr_TR")
 
 LEVEL = [
     (1, '1: Lorem ipsum'),
