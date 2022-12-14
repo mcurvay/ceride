@@ -41,7 +41,7 @@ class Event(models.Model):
     type = models.IntegerField("Tip", choices=TYPE, default=4)
     source = models.IntegerField("Arıza Kaynağı", choices=SOURCE, null=True, blank=True)
     solution_method = models.IntegerField("Çözüm Yöntemi", choices=SOLUTION, null=True, blank=True )
-    suggestions = models.CharField('Öneriler', max_length=500, help_text='Problemin yeniden gerçekleşmemesi için alınabilecek tedbirler.', null=False, blank=True)
+    suggestions = models.TextField('Öneriler', help_text='Problemin yeniden gerçekleşmemesi için alınabilecek tedbirler.', null=False, blank=True)
 
     solved_at = models.DateTimeField(
         'Çözüm Tarihi ve Saati', blank=True, null=True, default=None,
