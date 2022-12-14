@@ -1,5 +1,7 @@
-from django.http import Http404
-from django.views.generic import ListView, DetailView
+from datetime import datetime
+from django.http import Http404, HttpResponse
+from django.views.generic import ListView, DetailView, View
+from .utils import render_to_pdf
 
 from .models import Event, Step
 
@@ -35,3 +37,25 @@ class EventDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['steps'] = Step.objects.filter(event=self.object)
         return context
+
+class GeneratePDF(View):
+    model = Event
+    context_object_name = 'event'
+
+    
+    
+    def get(self, request, *args, **kwargs):
+        data = {
+            'id': self.kwargs['pk'],
+            'event': Event.objects.get(id=self.kwargs['pk']),
+            'steps': Step.objects.filter(event=self.kwargs['pk']),
+            'today': datetime.now(),
+            }
+        pdf = render_to_pdf('report.html', data)
+        if pdf:
+            response=HttpResponse(pdf,content_type='application/pdf')
+            filename = "Report_for_%s.pdf" %(data['id'])
+            content = "inline; filename= %s" %(filename)
+            response['Content-Disposition']=content
+            return response
+        return HttpResponse("Page Not Found")

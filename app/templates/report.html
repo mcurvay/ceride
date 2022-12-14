@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SİSTEM/SİBER OLAY RAPORU</title>
+    <style>
+        @page {
+          size: A4 portrait;
+
+          @frame header {
+            -pdf-frame-content: headerContent;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+          }
+
+          @frame content {
+            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+          }
+
+          @frame footer {
+            -pdf-frame-content: footerContent;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+          }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        h1 {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+        }
+        th, td {
+            padding: 4px;
+            text-align: left;
+            vertical-align:top;
+        }
+        
+        .w20 {
+            width: 20%;
+        }
+
+        p { margin: 0; -pdf-keep-with-next: true; }
+        
+
+
+    </style>
+</head>
+<body>
+  <!-- Content for Static Frame 'header_frame' -->
+  <div id="headerContent">{{ today }}</div>
+
+  <!-- Content for Static Frame 'footer_frame' -->
+  <div id="footerContent">
+    <pdf:pagenumber> - <pdf:pagecount>
+  </div>
+
+    <h1>SİSTEM/SİBER OLAY RAPORU</h1>
+    <h2>Olay Özeti</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td class="w20">Olayın Türü</td>
+          <td>{{ event.title }}</td>
+        </tr>
+        <tr>
+          <td>Tespit Yöntemi</td>
+          <td>{{ event.detection_method }}</td>
+        </tr>
+        <tr>
+          <td>Tespit Eden</td>
+          <td>{{ event.detection_by }}</td>
+        </tr>
+        <tr>
+          <td>Etkisi</td>
+          <td>Seviye {{ event.level }} - Tip {{ event.type }}</td>
+        </tr>
+        <tr>
+          <td>Tespit Zamanı</td>
+          <td>{{ event.dateTime }}</td>
+        </tr>
+        <tr>
+          <td>Ön İnceleme</td>
+          <td>{{ event.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+</body>
+</html>
