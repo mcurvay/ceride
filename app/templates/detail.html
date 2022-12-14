@@ -45,7 +45,9 @@
       <dt class="col-sm-3">Son Düzenleyen</dt>
       <dd class="col-sm-9">{{ event.updated_by }}</dd>
     </dl>
+    {% comment %}
     <a href="{% url 'app:pdf' event.id %}" class="btn btn-sm btn-outline-primary mt-5">Raporu indir</a>
+    {% endcomment %}
   </article>
 </section>
 {% endblock content %}
