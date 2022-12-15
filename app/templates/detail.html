@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load app_extras %}
+
 {% block title %}{{ event.title }}{% endblock title%}
 
 {% block content %}
@@ -23,10 +25,10 @@
     <hr>
     <dl class="row">
       <dt class="col-sm-3">{{ event.dateTime }}</dt>
-      <dd class="col-sm-9 mb-4">{{ event.description }}</dd>
+      <dd class="col-sm-9 mb-4">{{ event.description | markdownify | safe }}</dd>
       {% for step in steps %}
       <dt class="col-sm-3">{{ step.formatted_date }}</dt>
-      <dd class="col-sm-9 mb-4">{{ step.description }}</dd>
+      <dd class="col-sm-9 mb-4">{{ step.description | markdownify | safe }}</dd>
       {% endfor %}
     </dl>
     <hr>

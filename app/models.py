@@ -1,9 +1,9 @@
-from datetime import datetime, timedelta
 import locale, pytz
+
+from datetime import datetime, timedelta
+
 from django.db import models
 from django.contrib.auth.models import User
-
-# TODO: TextField veri girişlerinde markdown desteği eklenecek.
 
 locale.setlocale(locale.LC_ALL, "tr_TR")
 
