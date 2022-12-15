@@ -43,3 +43,24 @@ pre {
     color: var(--bs-code-color);
   }
 }
+
+@page:first {
+  margin-top: 3cm;
+}
+
+@media print {
+  html,
+  body {
+    font-size: 12px;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  dd {
+    text-align: justify !important;
+  }
+
+  // bölünmeler konusunda üzerinde çalışmak gerek
+}

@@ -7,13 +7,17 @@
 {% block content %}
 <section class="container-fluid py-5">
   <article class="container">
-    <h1 class="display-6 mb-5">{{ event.title }}</h1>
+    <p class="h5 mb-0 text-center d-none d-print-block">MEBS ve Siber Güvenlik Komutanlığı</p>
+    <h1 class="display-6 mb-5 text-center d-none d-print-block">SİSTEM/SİBER OLAY RAPORU</h1>
+    <h1 class="display-6 mb-5 d-print-none">{{ event.title }}</h1>
     <dl class="row">
+      <dt class="col-sm-3 d-none d-print-block">Olay</dt>
+      <dd class="col-sm-9 d-none d-print-block">{{ event.title }}</dd>
       <dt class="col-sm-3">Durum</dt>
         {% if event.solved_at %}
         <dd class="col-sm-9 text-success">Çözüldü</dd>
         {% else %}
-        <dd class="col-sm-9 text-danger">Çözülmedi</dd>
+        <dd class="col-sm-9 text-danger">Devam ediyor</dd>
         {% endif %}
       <dt class="col-sm-3">Tespit Yöntemi</dt>
       <dd class="col-sm-9">{{ event.detection_method }}</dd>
@@ -25,10 +29,10 @@
     <hr>
     <dl class="row">
       <dt class="col-sm-3">{{ event.dateTime }}</dt>
-      <dd class="col-sm-9 mb-4">{{ event.description | markdownify | safe }}</dd>
+      <dd class="col-sm-9">{{ event.description | markdownify | safe }}</dd>
       {% for step in steps %}
       <dt class="col-sm-3">{{ step.formatted_date }}</dt>
-      <dd class="col-sm-9 mb-4">{{ step.description | markdownify | safe }}</dd>
+      <dd class="col-sm-9">{{ step.description | markdownify | safe }}</dd>
       {% endfor %}
     </dl>
     <hr>
@@ -42,14 +46,24 @@
     </dl>
     <hr>
     <dl class="row">
-      <dt class="col-sm-3">Oluşturan</dt>
+      <dt class="col-sm-3">Raporu Oluşturan</dt>
       <dd class="col-sm-9">{{ event.created_by }}</dd>
-      <dt class="col-sm-3">Son Düzenleyen</dt>
+      <dt class="col-sm-3">Raporu Son Düzenleyen</dt>
       <dd class="col-sm-9">{{ event.updated_by }}</dd>
     </dl>
-    {% comment %}
-    <a href="{% url 'app:pdf' event.id %}" class="btn btn-sm btn-outline-primary mt-5">Raporu indir</a>
-    {% endcomment %}
+    <button type="button" class="btn btn-sm btn-outline-dark mt-5 d-print-none" onclick="window.print()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+        <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+      </svg>
+    </button>
+    {% comment %} 
+    TODO: Buraya mail ile paylaş düğmesi gelecek. belki ilerde insanların bir sorunu takip edebilmelerini sağlayan bir modül veya zaptiye üzerinden paylaşmayı sağlayan bir modül geliştiririz.
+    <a href="#" class="btn btn-sm btn-outline-dark mt-5 d-print-none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+      </svg>
+    </a> {% endcomment %}
   </article>
 </section>
 {% endblock content %}

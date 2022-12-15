@@ -10,6 +10,7 @@
     "csu": "python manage.py createsuperuser",
     "migrate": "python manage.py makemigrations && python manage.py migrate",
     "sass": "sass scss:static/css",
+    "sassdev": "sass --watch scss:static/css",
     "serve": "python manage.py runserver"
   },
   "repository": {
