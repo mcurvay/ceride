@@ -1,11 +1,11 @@
-import locale, pytz
-
 from datetime import datetime, timedelta
+
+import locale, pytz
 
 from django.db import models
 from django.contrib.auth.models import User
 
-locale.setlocale(locale.LC_ALL, "tr_TR")
+locale.setlocale(locale.LC_ALL, "tr_TR.utf8")
 
 LEVEL = [
     (1, '1: Lorem ipsum'),
