@@ -35,7 +35,7 @@ SOLUTIONBY = [
     ]
 
 class Event(models.Model): 
-    title = models.CharField('Olay', max_length=200)
+    title = models.CharField('Olay', max_length=200, help_text='Yeni olay oluşturmadan önce devam eden çözülmemiş olayları mutlaka kontrol ediniz. Olay başlığını belirlerken problemi doğru anlatan anahtar kelimeler kullanılmalıdır.')
     description = models.TextField('Ön İnceleme')
     dateTime = models.DateTimeField('Tespit Tarihi ve Saati', default=datetime.now)
     detection_method = models.CharField('Tespit Yöntemi', max_length=200, help_text='Telefonla, SOME Ekranı, vb...')
