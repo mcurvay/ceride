@@ -20,4 +20,16 @@
     {% endif %}
   </div>
 </section>
+
+{% if is_paginated %}
+<section class="container-fluid bg-light py-3" id="pagination">
+  <div class="container">
+    <div class="row">
+      <div class="col-auto mx-auto">
+        {% include 'partials/_pagination.html' %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endblock content %}

@@ -5,7 +5,6 @@ from .models import Event, Step
 
 # TODO: index sayfası için arama formu eklenecek.
 # TODO: index sayfası için filtreleme formu eklenecek.
-# TODO: detail sayfası için PDF çıktı düğmesi eklenecek.
 # TODO: 404 sayfası eklenecek.
 
 class EventListView(ListView):    
@@ -13,6 +12,7 @@ class EventListView(ListView):
     template_name = 'index.html'
     context_object_name = 'events'
     ordering = ['-dateTime']
+    paginate_by = 10
 
     def get_object(self, queryset=None):        
         obj = super().get_object(queryset)
