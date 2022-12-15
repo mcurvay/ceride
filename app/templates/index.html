@@ -3,6 +3,10 @@
 {% block title %}Ana Sayfa{% endblock title%}
 
 {% block content %}
+<form action="/" method="get">
+  <input name="q" type="text" placeholder="Search...">
+</form>
+
 <section class="container-fluid bg-light py-5" id="cards">
   <div class="container">
     {% if events %}
@@ -14,7 +18,10 @@
     {% else %}
       <div class="row py-3">
         <div class="col">
-          <p class="display-1 text-center">Hiç etkinlik yok.</p>
+          <p class="display-1 text-center">Hiç etkinlik bulunamadı.</p>
+          <p class="text-center">
+            <a href="/" class="text-decoration-none">Geri Dön</a>
+          </p>
         </div>
       </div>
     {% endif %}
