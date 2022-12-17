@@ -10,40 +10,40 @@ try:
 except locale.Error:
     locale.setlocale(locale.LC_ALL, "tr_TR")
 
-LEVEL = [
-    (1, '1: Sınırlı etkili - Nöbet heyeti çözebilir'),
-    (2, '2: Sınırlı etkili - Nöbet heyeti çözemez'),
-    (3, '3: Geneli etkileyen etkisi yüksek arıza')]
-
-TYPE = [
-    (1, '1: Donanımın kalıcı hasara uğrama riski'),
-    (2, '2: Kurumsal verinin kaybedilme riski'),
-    (3, '3: Görevin yapılamama/vatandaşa sunulamama riski'),
-    (4, '4: Kritik uygulamaların devredışı kalma riski'),
-    (5, '5: Kurumun imajını olumsuz etkileme riski'),
-    (6, '6: Diğer')]
-
-DETECTION_METHOD = [
-    ('SOME İzleme Ekranları', 'SOME İzleme Ekranları'),
-    ('GÜVERCİNLİK İzleme Ekranları', 'GÜVERCİNLİK İzleme Ekranları'),
-    ('KASTAMONU İzleme Ekranı', 'KASTAMONU İzleme Ekranı'),
-    ('Kurum İçi', 'Kurum İçi (Diğer Birlikler, İç Hatlar, E-Posta, Telefon, vb.)'),
-    ('Kurum Dışı', 'Kurum Dışı')]
-
-FAILURE_SOURCE = [
-    ('Yazılım', 'Yazılım'),
-    ('Donanım', 'Donanım'),
-    ('Konfigürasyon', 'Konfigürasyon'),
-    ('Alt Yapı', 'Alt Yapı'),
-    ('Kurum Dışı', 'Kurum Dışı')]
-
-SOLUTION_BY = [
-    ('Nöbetçi heyeti', 'Nöbetçi heyeti'),
-    ('İlgili personel', 'İlgili personel'),
-    ('Firma Personeli', 'Firma Personeli')]
-
 
 class Event(models.Model):
+    LEVEL = [
+        (1, '1: Sınırlı etkili - Nöbet heyeti çözebilir'),
+        (2, '2: Sınırlı etkili - Nöbet heyeti çözemez'),
+        (3, '3: Geneli etkileyen etkisi yüksek arıza')]
+
+    TYPE = [
+        (1, '1: Donanımın kalıcı hasara uğrama riski'),
+        (2, '2: Kurumsal verinin kaybedilme riski'),
+        (3, '3: Görevin yapılamama/vatandaşa sunulamama riski'),
+        (4, '4: Kritik uygulamaların devredışı kalma riski'),
+        (5, '5: Kurumun imajını olumsuz etkileme riski'),
+        (6, '6: Diğer')]
+
+    DETECTION_METHOD = [
+        ('SOME İzleme Ekranları', 'SOME İzleme Ekranları'),
+        ('GÜVERCİNLİK İzleme Ekranları', 'GÜVERCİNLİK İzleme Ekranları'),
+        ('KASTAMONU İzleme Ekranı', 'KASTAMONU İzleme Ekranı'),
+        ('Kurum İçi', 'Kurum İçi (Diğer Birlikler, İç Hatlar, E-Posta, Telefon, vb.)'),
+        ('Kurum Dışı', 'Kurum Dışı')]
+
+    FAILURE_SOURCE = [
+        ('Yazılım', 'Yazılım'),
+        ('Donanım', 'Donanım'),
+        ('Konfigürasyon', 'Konfigürasyon'),
+        ('Alt Yapı', 'Alt Yapı'),
+        ('Kurum Dışı', 'Kurum Dışı')]
+
+    SOLUTION_BY = [
+        ('Nöbetçi heyeti', 'Nöbetçi heyeti'),
+        ('İlgili personel', 'İlgili personel'),
+        ('Firma Personeli', 'Firma Personeli')]
+
     # İlk Bilgiler
     title = models.CharField(
         'Olay *',

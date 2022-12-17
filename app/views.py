@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import Q
 
+from .filters import EventFilter
 from .models import Event, Step
 
 
@@ -14,13 +14,10 @@ class EventListView(ListView):
     ordering = ['-dateTime']
     paginate_by = 12
 
-    def get_queryset(self):
-        query = self.request.GET.get('ara')
-        if query is None:
-            return Event.objects.all()
-        return Event.objects.filter(
-            Q(title__icontains=query) | Q(description__icontains=query)
-        )
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 
 class EventDetailView(DetailView):
