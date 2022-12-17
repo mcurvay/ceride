@@ -5,7 +5,10 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.db import models
 
-locale.setlocale(locale.LC_ALL, "tr_TR.utf8")
+try:
+    locale.setlocale(locale.LC_ALL, "tr_TR.utf8")
+except locale.Error:
+    locale.setlocale(locale.LC_ALL, "tr_TR")
 
 LEVEL = [
     (1, '1: Sınırlı etkili - Nöbet heyeti çözebilir'),
