@@ -4,7 +4,9 @@ from .filters import EventFilter
 from .models import Event, Step
 
 
-# TODO: index sayfası için filtreleme formu eklenecek.
+# TODO: Çözüldü, çözülmedi, son 7 gün, son 30 gün gibi filtreleme seçenekleri
+# TODO: sayfa yenilendiğinde tüm filtreleme seçim datası gidiyor. Kalsa iyi olur
+# TODO: filtre kolayca resetlenmeli
 # TODO: 404 sayfası eklenecek.
 
 class EventListView(ListView):
