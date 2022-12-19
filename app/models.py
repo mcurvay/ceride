@@ -1,7 +1,7 @@
 import locale
-import pytz
 from datetime import datetime, timedelta
 
+import pytz
 from django.contrib.auth.models import User
 from django.db import models
 
