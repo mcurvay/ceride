@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView, View
 
 from .filters import EventFilter
 from .models import Event, Step
@@ -31,3 +32,11 @@ class EventDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['steps'] = Step.objects.filter(event=self.object)
         return context
+
+
+class ChangeLogView(View):
+    template_name = 'changelog.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
