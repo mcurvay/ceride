@@ -17,6 +17,7 @@
                     {{ request.user.first_name | slice:1 }}. {{ request.user.last_name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                    {% if request.user.is_staff %}
                     <li>
                         <a class="dropdown-item" href="/admin">
                             <svg class="bi bi-plus" fill="currentColor" height="16" viewBox="0 0 16 16"
@@ -29,6 +30,7 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
+                    {% endif %}
                     <li>
                         <form action="{% url 'oidc_logout' %}" method="post">
                             {% csrf_token %}

@@ -5,71 +5,85 @@
 {% block title %}{{ event.title }}{% endblock title%}
 
 {% block content %}
+{% if request.user.is_staff %}
 <section class="container-fluid py-5">
-  <article class="container">
-    <p class="h5 mb-0 text-center d-none d-print-block">MEBS ve Siber Güvenlik Komutanlığı</p>
-    <h1 class="display-6 mb-5 text-center d-none d-print-block">SİSTEM/SİBER OLAY RAPORU</h1>
-    <h1 class="display-6 mb-5 d-print-none">{{ event.title }}</h1>
-    <dl class="row">
-      <dt class="col-sm-3 d-none d-print-block">Olay</dt>
-      <dd class="col-sm-9 d-none d-print-block">{{ event.title }}</dd>
-      <dt class="col-sm-3">Durum</dt>
-        {% if event.solved_at %}
-        <dd class="col-sm-9 text-success">Çözüldü</dd>
-        {% else %}
-        <dd class="col-sm-9 text-danger">Devam ediyor</dd>
+    <article class="container">
+        <p class="h5 mb-0 text-center d-none d-print-block">MEBS ve Siber Güvenlik Komutanlığı</p>
+        <h1 class="display-6 mb-5 text-center d-none d-print-block">SİSTEM/SİBER OLAY RAPORU</h1>
+        <h1 class="display-6 mb-5 d-print-none">{{ event.title }}</h1>
+        <dl class="row">
+            <dt class="col-sm-3 d-none d-print-block">Olay</dt>
+            <dd class="col-sm-9 d-none d-print-block">{{ event.title }}</dd>
+            <dt class="col-sm-3">Durum</dt>
+            {% if event.solved_at %}
+            <dd class="col-sm-9 text-success">Çözüldü</dd>
+            {% else %}
+            <dd class="col-sm-9 text-danger">Devam ediyor</dd>
+            {% endif %}
+            <dt class="col-sm-3">Tespit Yöntemi</dt>
+            <dd class="col-sm-9">
+                {{ event.detection_method }}
+                {% if event.detection_method_text %} - {{ event.detection_method_text }}{% endif %}
+            </dd>
+            <dt class="col-sm-3">Tespit Eden</dt>
+            <dd class="col-sm-9">{{ event.detection_by }}</dd>
+            <dt class="col-sm-3">Etkisi</dt>
+            <dd class="col-sm-9">
+                Seviye {{ event.level }} - Tip {{ event.type }}
+                {% if event.type_text %} - {{ event.type_text }}{% endif %}
+            </dd>
+        </dl>
+        <hr>
+        <dl class="row">
+            <dt class="col-sm-3">{{ event.dateTime }}</dt>
+            <dd class="col-sm-9">{{ event.description | markdownify | safe }}</dd>
+            {% for step in steps %}
+            <dt class="col-sm-3">{{ step.formatted_date }}</dt>
+            <dd class="col-sm-9">{{ step.description | markdownify | safe }}</dd>
+            {% endfor %}
+        </dl>
+        <hr>
+        <dl class="row">
+            <dt class="col-sm-3">Çözüm Zamanı</dt>
+            <dd class="col-sm-9">{% if event.solved_at %}{{ event.solved_at }}{% else %}Çözülmedi{% endif %}</dd>
+            <dt class="col-sm-3">Arıza Kaynağı</dt>
+            <dd class="col-sm-9">{% if event.source %}{{ event.source }}{% else %}Tespit edilemedi{% endif %}</dd>
+            <dt class="col-sm-3">Çözüm Geliştiren</dt>
+            <dd class="col-sm-9">{% if event.solution_by %}{{ event.solution_by }}{% else %}Yok{% endif %}</dd>
+        </dl>
+        <hr>
+        {% if event.notes %}
+        <dl class="row">
+            <dt class="col-sm-3">Notlar</dt>
+            <dd class="col-sm-9">{{ event.notes | markdownify | safe }}</dd>
+        </dl>
+        <hr>
         {% endif %}
-      <dt class="col-sm-3">Tespit Yöntemi</dt>
-      <dd class="col-sm-9">
-        {{ event.detection_method }}
-        {% if event.detection_method_text %} - {{ event.detection_method_text }}{% endif %}
-      </dd>
-      <dt class="col-sm-3">Tespit Eden</dt>
-      <dd class="col-sm-9">{{ event.detection_by }}</dd>
-      <dt class="col-sm-3">Etkisi</dt>
-      <dd class="col-sm-9">
-        Seviye {{ event.level }} - Tip {{ event.type }}
-        {% if event.type_text %} - {{ event.type_text }}{% endif %}
-      </dd>
-    </dl>
-    <hr>
-    <dl class="row">
-      <dt class="col-sm-3">{{ event.dateTime }}</dt>
-      <dd class="col-sm-9">{{ event.description | markdownify | safe }}</dd>
-      {% for step in steps %}
-      <dt class="col-sm-3">{{ step.formatted_date }}</dt>
-      <dd class="col-sm-9">{{ step.description | markdownify | safe }}</dd>
-      {% endfor %}
-    </dl>
-    <hr>
-    <dl class="row">
-      <dt class="col-sm-3">Çözüm Zamanı</dt>
-      <dd class="col-sm-9">{% if event.solved_at %}{{ event.solved_at }}{% else %}Çözülmedi{% endif %}</dd>
-      <dt class="col-sm-3">Arıza Kaynağı</dt>
-      <dd class="col-sm-9">{% if event.source %}{{ event.source }}{% else %}Tespit edilemedi{% endif %}</dd>
-      <dt class="col-sm-3">Çözüm Geliştiren</dt>
-      <dd class="col-sm-9">{% if event.solution_by %}{{ event.solution_by }}{% else %}Yok{% endif %}</dd>
-    </dl>
-    <hr>
-    {% if event.notes %}
-    <dl class="row">
-      <dt class="col-sm-3">Notlar</dt>
-      <dd class="col-sm-9">{{ event.notes | markdownify | safe }}</dd>
-    </dl>
-    <hr>
-    {% endif %}
-    <dl class="row">
-      <dt class="col-sm-3">Raporu Oluşturan</dt>
-      <dd class="col-sm-9">{{ event.created_by }}</dd>
-      <dt class="col-sm-3">Raporu Son Düzenleyen</dt>
-      <dd class="col-sm-9">{{ event.updated_by }}</dd>
-    </dl>
-    <button type="button" class="btn btn-sm btn-outline-dark mt-5 d-print-none" onclick="window.print()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-        <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-      </svg>
-    </button>
-  </article>
+        <dl class="row">
+            <dt class="col-sm-3">Raporu Oluşturan</dt>
+            <dd class="col-sm-9">{{ event.created_by }}</dd>
+            <dt class="col-sm-3">Raporu Son Düzenleyen</dt>
+            <dd class="col-sm-9">{{ event.updated_by }}</dd>
+        </dl>
+        <button class="btn btn-sm btn-outline-dark mt-5 d-print-none" onclick="window.print()" type="button">
+            <svg class="bi bi-printer" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+            </svg>
+        </button>
+    </article>
 </section>
+{% else %}
+<div class="container-fluid my-5 py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-5 text-center">Bu uygulamayı kullanmaya yetkili değilsiniz.</h1>
+                <p class="lead text-center text-muted">Lütfen yöneticiniz ile görüşün.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}
