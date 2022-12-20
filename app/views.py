@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
 
@@ -10,7 +11,7 @@ from .models import Event, Step
 # TODO: filtre kolayca resetlenmeli
 # TODO: 404 sayfası eklenecek.
 
-class EventListView(ListView):
+class EventListView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'index.html'
     context_object_name = 'events'
@@ -23,7 +24,7 @@ class EventListView(ListView):
         return context
 
 
-class EventDetailView(DetailView):
+class EventDetailView(LoginRequiredMixin, DetailView):
     model = Event
     template_name = 'detail.html'
     context_object_name = 'event'

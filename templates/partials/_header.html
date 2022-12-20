@@ -1,35 +1,44 @@
 <nav class="navbar navbar-dark bg-dark d-print-none">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      {% if request.path != '/' %}
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left mb-1" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-        </svg>
-      {% endif %}
-      Ceride
-    </a>
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ request.user }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-            <li>
-              <a class="dropdown-item" href="/admin">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Olay Ekle
-              </a>
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'app:event_list' %}">
+            {% if request.path != '/' %}
+            <svg class="bi bi-arrow-left mb-1" fill="currentColor" height="20" viewBox="0 0 16 16"
+                 width="20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                      fill-rule="evenodd"/>
+            </svg>
+            {% endif %}
+            Ceride
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                   role="button">
+                    {{ request.user.first_name | slice:1 }}. {{ request.user.last_name }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                    <li>
+                        <a class="dropdown-item" href="/admin">
+                            <svg class="bi bi-plus" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                 width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                            Olay Ekle
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{% url 'oidc_logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="dropdown-item" type="submit" value="logout">
+                                Çıkış Yap
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item" href="#">
-                Çıkış Yap
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-  </div>
+        </ul>
+    </div>
 </nav>

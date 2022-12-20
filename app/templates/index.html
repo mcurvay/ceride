@@ -4,63 +4,40 @@
 
 {% block content %}
 <section class="container-fluid bg-light pt-5" id="search">
-  <div class="container">
-    {% include 'partials/_filter.html' %}
-  </div>
+    <div class="container">
+        {% include 'partials/_filter.html' %}
+    </div>
 </section>
 
 <section class="container-fluid bg-light py-5" id="cards">
-  <div class="container">
-    {% if events %}
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        {% for event in events.qs %}
-          {% include 'partials/_event_card.html' %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="row py-3">
-        <div class="col">
-          <p class="display-1 text-center">Hiç etkinlik bulunamadı.</p>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {% for event in events.qs %}
+            {% include 'partials/_event_card.html' %}
+            {% endfor %}
         </div>
-      </div>
-    {% endif %}
-  </div>
+    </div>
 </section>
 
 {% if is_paginated %}
 <section class="container-fluid bg-light py-3" id="pagination">
-  <div class="container">
-    <div class="row">
-      <div class="col-auto mx-auto">
-        {% include 'partials/_pagination.html' %}
-      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-auto mx-auto">
+                {% include 'partials/_pagination.html' %}
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 {% endif %}
-
-
-<!-- TODO: bu login parçası örnek kodları buradan kalkacak -->
-
-{% if user.is_authenticated %}
-  <p>Current user: {{ user.email }}</p>
-  <form action="{% url 'oidc_logout' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="logout">
-  </form>
-{% else %}
-  <a href="{% url 'oidc_authentication_init' %}">Login</a>
-{% endif %}
-
-<!-- ----------------------------------------------------- -->
-
 {% endblock content %}
 
 {% block script %}
-  <script>
+<script>
     function submitForm() {
-      document.getElementById("form").submit();
-      return false;
+        document.getElementById("form").submit();
+        return false;
     }
-  </script>
+
+</script>
 {% endblock script %}

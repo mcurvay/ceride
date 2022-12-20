@@ -1,45 +1,47 @@
 <form method="get" onsubmit="return submitForm()">
 
-  {% for form in events.form %}{% if form.name == 'search' %}
-  <div class="col-md-8">
-    <div class="input-group">
-      <input type="text" class="form-control form-control-lg" placeholder="Arayın..." name="{{ form.name }}">
-      <button class="btn btn-outline-secondary"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvas">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-          <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-        </svg>
-      </button>
+    {% for form in events.form %}{% if form.name == 'search' %}
+    <div class="col-md-8">
+        <div class="input-group">
+            <input class="form-control form-control-lg" name="{{ form.name }}" placeholder="Arayın..." type="text">
+            <button class="btn btn-outline-secondary"
+                    data-bs-target="#offcanvas"
+                    data-bs-toggle="offcanvas"
+                    type="button">
+                <svg class="bi bi-filter" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </button>
+        </div>
     </div>
-  </div>
-  {% endif %}{% endfor %}
+    {% endif %}{% endfor %}
 
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtre</h5>
-      <button type="button" class="btn" data-bs-dismiss="offcanvas" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-        </svg>
-      </button>
+    <div class="offcanvas offcanvas-end" id="offcanvas" tabindex="-1">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtre</h5>
+            <button aria-label="Close" class="btn" data-bs-dismiss="offcanvas" type="button">
+                <svg class="bi bi-x-lg" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="offcanvas-body">
+            {% for form in events.form %}{% if not form.name == 'search' %}
+            <div class="mb-3">
+                <label class="form-label" for="{{ form.name }}">{{ form.label }}</label>
+                <select class="form-select" id="{{ form.name }}" name="{{ form.name }}">
+                    {% for choice in form.field.choices %}
+                    <option value="{{ choice.0 }}">{% if not choice.0 %}Tümü{% else %}{{ choice.1 }}{% endif %}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}{% endfor %}
+            <button class="btn btn-secondary" type="submit">Filtrele</button>
+            <button class="btn btn-secondary" type="reset">Sıfırla</button>
+        </div>
     </div>
-    <div class="offcanvas-body">
-    {% for form in events.form %}{% if not form.name == 'search' %}
-      <div class="mb-3">
-        <label for="{{ form.name }}" class="form-label">{{ form.label }}</label>
-        <select class="form-select" name="{{ form.name }}" id="{{ form.name }}">
-          {% for choice in form.field.choices %}
-            <option value="{{ choice.0 }}">{% if not choice.0 %}Tümü{% else %}{{ choice.1 }}{% endif %}</option>
-          {% endfor %}
-        </select>
-      </div>
-      {% endif %}{% endfor %}
-      <button type="submit" class="btn btn-secondary">Filtrele</button>
-      <button type="reset" class="btn btn-secondary">Sıfırla</button>
-    </div>
-  </div>
 
 </form>
 

@@ -5,4 +5,5 @@ urlpatterns = [
     path('', include('app.urls')),
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
